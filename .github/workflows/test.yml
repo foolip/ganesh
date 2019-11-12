@@ -13,3 +13,8 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
     - run: npm test
+    - run: |
+        npx nyc report --reporter=text-lcov > coverage.lcov
+        bash <(curl -s https://codecov.io/bash) -F node${{ matrix.node-version }}
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
